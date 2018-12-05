@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<html>
+  <body>
+    <div id="container">
+
+    </div>
+  </body>
+  <script type="text/javascript" src="./js/main.js"></script>
+</html>
+
+<style>
+  html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'PT Sans';
+  }
+
+  #container {
+    height: 100%;
+    width: 100%;
+    color: white;
+    background-color: #2356E7;
+  }
+
+  h1 {
+    padding: 0;
+    margin: 0;
+  }
+
+  .login-text {
+    padding-top: 40px;
+    margin: auto;
+    padding-top: 20%;
+    width: 50%;
+  }
+
+  .login-text > h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 9000;
+    padding: 0;
+  }
+
+  .login-text > h5 {
+    text-align: center;
+    font-weight: 10;
+    margin: 0;
+    padding: 0;
+    color: #b5b5b5;
+  }
+
+  .login-options {
+    margin: auto;
+    font-size: 14px;
+    width: 60%;
+    margin-top: 50px;
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+
+  @keyframes change-login-options-hover {
+    from {background-color: none; color: white; border: 1px solid #d6d4d4;}
+    to {background-color: #eff0f2; color: black; border: 1px solid #eff0f2;}
+  }
+
+  .login-options > div {
+    background-color: none;
+    border: 2px solid #d6d4d4;
+    border-radius: 30px;
+    width: 50%;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .login-options > div:hover {
+    animation-name: change-login-options-hover;
+    animation-duration: 0.4s;
+    color: black; 
+    border: 1px solid #eff0f2;
+    background-color: #eff0f2;
+    cursor: pointer;
+
+  }
+
+  .login-options > div > h3 {
+    text-align: center;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+</style>

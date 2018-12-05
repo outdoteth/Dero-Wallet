@@ -1,0 +1,21 @@
+{
+  "name": "dero_wallet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^3.0.10"
+  },
+  "dependencies": {
+    "electron-prebuilt-compile": "^3.0.10",
+    "electron-reload": "^1.4.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
