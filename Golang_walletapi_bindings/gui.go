@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 import "github.com/deroproject/derosuite/walletapi"
+import "net/http"
+import "io/ioutil"
 
 var command_line string = `dero-wallet-gui
 DERO Wallet gui: A secure, private blockchain with smart-contracts
@@ -139,6 +141,16 @@ func (t *CtxObject) sendString(a string) {
 var global_object *CtxObject
 //var global_gui *gui.QGuiApplication
 
-func main() {
-
+func open_wallet(w http.ResponseWriter, r *http.Request) {
+	body, _ := ioutil.ReadAll(r.Body)
+	w.Write([]byte(body))
 }
+
+func main() {
+	http.HandleFunc("/open_wallet", open_wallet)
+	if err := http.ListenAndServe(":8000", nil); err != nil {
+		panic(err)
+	}
+}
+
+

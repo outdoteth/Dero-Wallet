@@ -1,6 +1,8 @@
 'use strict';
 
 require("electron-reload")(__dirname);
+var child = require('child_process').execFile;
+
 
 const { app, BrowserWindow } = require('electron')
 
@@ -11,6 +13,16 @@ let win
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({ width: 1200, height: 700 })
+  var executablePath = "./Golang_walletapi_bindings/Golang_walletapi_bindings";
+
+  child(executablePath, function(err, data) {
+      if(err){
+         console.error(err);
+         return;
+      }
+   
+      console.log(data.toString());
+  });
 
   // and load the index.html of the app.
   win.loadFile('index.html')
@@ -48,3 +60,5 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+
