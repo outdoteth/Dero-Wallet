@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"encoding/json"
 )
 import "github.com/deroproject/derosuite/walletapi"
 import "net/http"
@@ -138,12 +139,25 @@ func (t *CtxObject) sendString(a string) {
 	fmt.Println("sendString:", a)
 }
 
-var global_object *CtxObject
+var global_object = new(CtxObject)
 //var global_gui *gui.QGuiApplication
 
+type UnlockWallet struct {
+	Password string `json:"password"`
+	FileName string `json:"file"`
+}
+
 func open_wallet(w http.ResponseWriter, r *http.Request) {
-	body, _ := ioutil.ReadAll(r.Body)
-	w.Write([]byte(body))
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+	defer r.Body.Close()
+	var data UnlockWallet
+	json.Unmarshal(body, &data)
+	fmt.Printf(string(data.Password))
+	global_object.openwallet(data.FileName, data.Password)
+	w.Write([]byte("body"))
 }
 
 func main() {
