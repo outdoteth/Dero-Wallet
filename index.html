@@ -4,13 +4,219 @@
   <body>
 
     <div id="container">
+      <div class="main-container">
 
+        <div class="logged-in-main">
+
+          <div class="main-top-banner">
+            <div>
+
+              <h1 class="main-top-banner-amount-num">Đ500.45902</h1>
+              <p class="main-top-banner-amount-text">Account Balance</p>
+            </div>
+          </div>
+
+          <div class="main-side-banner">
+            <div><p>Wallet</p></div>
+            <div><p>Send Funds</p></div>
+            <div><p>Receive Funds</p></div>
+            <div><p>Settings</p></div>
+          </div>
+
+          <div class="main-main-box">
+            <div class="send-recieve">
+              <div class="send-recieve-send"><p>Send Funds</p></div>
+              <div class="send-recieve-recieve"><p>Receive Funds</p></div>
+            </div>
+
+            <div class="transaction-history-title">Transaction History</div>
+
+            <div class="incoming-outgoing">
+              <div>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+                  <p><span class="incoming-color-text">Incoming - Amount: Đ500.00000</span> | 09:00 05/09/2018 | <span>Transaction ID:</span> aksjnchfbgshbcj872jsnhbdgytu76e</p>
+              </div>
+            </div>
+            <div class="load-more-button">Load 25+ More</div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </body>
-  <script type="text/javascript" src="./src/bundle.js"></script>
+  <!--<script type="text/javascript" src="./src/bundle.js"></script>-->
 </html>
 
 <style>
+  .incoming-outgoing {
+    font-weight: thick;
+    margin-left: 120px;
+    margin-top: 20px;
+    overflow: scroll;
+    height: 340px;
+  }
+
+  .incoming-color-text {
+    color: #00DF80;
+    font-weight: bolder;
+  }
+
+  .outgoing-color-text {
+    color: #FF004E;
+    font-weight: bold;
+  }
+
+  .incoming-outgoing > div {
+    margin-bottom: 20px;
+  }
+
+  .incoming-outgoing > div > p > span {
+    font-weight: normal;
+  }
+
+  .incoming-outgoing > div > p {
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    color: grey;
+    margin-top: 4px;
+  }
+
+  @keyframes send-recieve-hover {
+    from {background-color: none; }
+    to {background-color: #eff0f2; }
+  }
+
+  .send-recieve {
+    display: grid;
+    font-weight: normal;
+  }
+
+  .send-recieve > div {
+    background-color: none;
+  }
+
+  .send-recieve > div:hover {
+    animation-name: send-recieve-hover;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    cursor: pointer;
+  }
+
+  .send-recieve-send {
+    border-bottom: 1px solid lightgrey;
+    grid-row: 1;
+  }
+
+  .send-recieve-send > p {
+    border-right: 1px solid lightgrey;
+    text-align: center;
+  }
+
+  .send-recieve-recieve {
+    grid-row: 1;
+    border-bottom: 1px solid lightgrey;
+  }
+
+  .send-recieve-recieve > p {
+    border-left: 1px solid lightgrey;
+    text-align: center;
+  }
+
+
+  .transaction-history-title {
+    font-size: 16px;
+    font-weight: bolder;
+    margin-left: 120px;
+    margin-top: 30px;
+  }
+
+  .logged-in-main {
+    font-family: 'PT Sans';
+    color: black;
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    display: grid;
+  }
+
+  .main-main-box {
+    grid-column: 2/15;
+    grid-row: 4/60;
+    background-color: white;
+  }
+
+  .main-side-banner {
+    grid-column: 1/2;
+    grid-row: 1/60;
+    background-color: #292D32;
+  }
+
+  .main-side-banner > div {
+    color: grey;
+    height: 35px;
+    margin-top: 10px;
+    padding-top: 15px;
+    padding-right: 20px;
+    padding-left: 30px;
+  }
+
+  .main-side-banner > div:hover {
+     background-color:#4A4D51;
+     cursor: pointer;
+     color: white;
+     font-weight: bold;
+  }
+
+  .main-side-banner > div > p {
+    font-weight: normal;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .main-top-banner {
+    grid-column: 2/15;
+    grid-row: 1/4;
+    background-image: linear-gradient(to right, #00C3FF , #2356E7);
+  }
+
+  .main-top-banner-amount-num {
+    color: white;
+    font-weight: normal;
+    font-size: 38px;
+    margin-left: 120px;
+    margin-top: 37px;
+  }
+
+  .main-top-banner-amount-text {
+    padding: 0;
+    margin: 0;
+    margin-left: 120px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: white;
+    font-weight: thin;
+    font-size: 16px;
+  }
+
+
 
   .password-for-file-popup {
     position: fixed;
@@ -123,6 +329,16 @@
     height: 100%;
     width: 100%;
     color: white;
+  }
+
+  .main-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .login-container {
+    height: 100%;
+    width: 100%;
     background-color: #2356E7;
   }
 

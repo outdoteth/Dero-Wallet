@@ -90,7 +90,7 @@ export default class LoginPage extends React.Component {
 
 	render () {
 		return (
-				<div>
+				<div class="login-container">
 					{ this.state.isFileChosen ? <EnterPassword fileName={this.state.file} changeFile={this.changeFile} toggle_logged_in={this.props.toggle_logged_in}/> : "" }
 					<div className="login-text">
 				        <h1>Welcome to the Dero wallet</h1>
