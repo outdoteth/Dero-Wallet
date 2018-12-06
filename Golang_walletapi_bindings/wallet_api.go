@@ -30,7 +30,7 @@ import "github.com/deroproject/derosuite/walletapi"
 //import "github.com/deroproject/derosuite/transaction"
 
 // this goroutine continuously updates  height/balances if a wallet is open
-/*func update_heights_balances() {
+func update_heights_balances() {
 
 	// counter := 0
 	for {
@@ -59,7 +59,7 @@ import "github.com/deroproject/derosuite/walletapi"
 		}
 	}
 }
-
+/*
 func (t *CtxObject) addressVerify(addr string) {
 	if global_object != nil && global_object.walletptr != nil {
 		addr, err := globals.ParseValidateAddress(addr)
@@ -289,12 +289,12 @@ func (t *CtxObject) recoverusingseedwords(filename, password, seed_key_string st
 }*/
 
 //  create wallet using recovery key
-func (t *CtxObject) openwallet(filename, password string) {
+func (t *CtxObject) openwallet(filename, password string)(string) {
 	t.Lock()
 	defer t.Unlock()
 
 	if global_object != nil && global_object.walletptr != nil {
-		return
+		return "already logged in"
 	}
 
 	if runtime.GOOS == "windows" {
@@ -307,11 +307,12 @@ func (t *CtxObject) openwallet(filename, password string) {
 	if err != nil {
 		//globals.Logger.Warnf("Error while recovering wallet using seed key err %s\n", err)
 		//global_object.SetIniterr(fmt.Sprintf("Error occurred while opening wallet file %s. err %s", filename, err))
-		return
+		return "Error opening wallet file"
 	}
 
 	// we are here means wallet opened successfully
-	t.Common_Wallet_Setup(walletptr)
+	addr := t.Common_Wallet_Setup(walletptr)
+	return addr
 }
 /*
 //  create new wallet
@@ -340,12 +341,13 @@ func (t *CtxObject) createnewwallet(filename, password string) {
 	t.Common_Wallet_Setup(walletptr)
 }
 */
-func (t *CtxObject) Common_Wallet_Setup(walletptr *walletapi.Wallet) {
+func (t *CtxObject) Common_Wallet_Setup(walletptr *walletapi.Wallet) (string) {
 
 	global_object.walletptr = walletptr
 
 	addr := global_object.walletptr.GetAddress()
 	fmt.Println(addr)
+	return addr.String()
 	//global_object.SetWallet_address(addr.String())
 
 	//global_object.SetWallet_valid(true) // mark wallet as valid

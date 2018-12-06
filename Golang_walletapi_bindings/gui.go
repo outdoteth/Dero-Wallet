@@ -156,8 +156,8 @@ func open_wallet(w http.ResponseWriter, r *http.Request) {
 	var data UnlockWallet
 	json.Unmarshal(body, &data)
 	fmt.Printf(string(data.Password))
-	global_object.openwallet(data.FileName, data.Password)
-	w.Write([]byte("body"))
+	addr := global_object.openwallet(data.FileName, data.Password)
+	w.Write([]byte(addr))
 }
 
 func main() {
