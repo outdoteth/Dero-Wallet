@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import * as axios from "axios";
 import LoginPage from "./login.js"
 import WalletLanding from "./wallet_landing.js"
+
 const {dialog} = window.require('electron').remote;
 
 class MainPage extends React.Component {
@@ -22,7 +23,7 @@ class MainPage extends React.Component {
 	render() {
 		return (
 			<div class="main-container">
-				{ this.state.loggedIn ? "" : <LoginPage toggle_logged_in={this.toggle_logged_in}/> }
+				{ this.state.loggedIn ? <WalletLanding/> : <LoginPage toggle_logged_in={this.toggle_logged_in}/> }
 			</div>
 		)
 	}

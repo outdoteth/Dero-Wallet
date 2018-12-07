@@ -40,6 +40,7 @@ class EnterPassword extends React.Component {
 										}).then( res => {
 											if (res.data[0] === "d") {
 												this.props.toggle_logged_in();
+												axios.post("http://127.0.0.1:8000/set_wallet_online", {url: "https://rwallet.dero.live"}).then(res => console.log(res)).catch(e => console.log(e));
 											}
 										}).catch(e => {
 											console.log(e)
