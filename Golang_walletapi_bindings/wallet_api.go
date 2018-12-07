@@ -22,42 +22,36 @@ import "runtime"
 import "strings"
 //import "path/filepath"
 //import "encoding/hex"
-//import "encoding/json"
+import "encoding/json"
 import "github.com/deroproject/derosuite/walletapi"
-//import "github.com/deroproject/derosuite/globals"
+import "github.com/deroproject/derosuite/globals"
 //import "github.com/deroproject/derosuite/crypto"
 //import "github.com/deroproject/derosuite/address"
 //import "github.com/deroproject/derosuite/transaction"
 
 // this goroutine continuously updates  height/balances if a wallet is open
-func update_heights_balances() {
+func update_heights_balances()(int64, int64, int64, string, string, string) {
 
 	// counter := 0
-	for {
-		//time.Sleep(time.Second)
-		time.Sleep(100 * time.Millisecond)
+	if global_object != nil && global_object.walletptr != nil {
+		global_object.Lock()
+		//counter++
+		height := int64(global_object.walletptr.Get_Height())
+		//global_object.SetHeight(int64(counter))
+		topoHeight := int64(global_object.walletptr.Get_TopoHeight())
 
-		if global_object != nil && global_object.walletptr != nil {
-			global_object.Lock()
-			//counter++
-			global_object.SetHeight(int64(global_object.walletptr.Get_Height()))
-			//global_object.SetHeight(int64(counter))
-			global_object.SetTopoheight(int64(global_object.walletptr.Get_TopoHeight()))
+		Nweight := int64(global_object.walletptr.Get_Daemon_Height())
 
-			if global_object.walletptr.GetMode() {
-				global_object.SetNwheight(int64(global_object.walletptr.Get_Daemon_Height()))
-			} else {
-				global_object.SetNwheight(int64(0))
-			}
+		u, l := global_object.walletptr.Get_Balance()
+		totalBalance := globals.FormatMoney12(l + u)
+		unlockedBalance := globals.FormatMoney12(u)
+		lockedBalance := globals.FormatMoney12(l)
 
-			u, l := global_object.walletptr.Get_Balance()
-			global_object.SetTotal_balance(globals.FormatMoney12(l + u))
-			global_object.SetUnlocked_balance(globals.FormatMoney12(u))
-			global_object.SetLocked_balance(globals.FormatMoney12(l))
-
-			global_object.Unlock()
-		}
+		global_object.Unlock()
+		return height, topoHeight, Nweight, totalBalance, unlockedBalance, lockedBalance
 	}
+
+	return 0,0,0,"", "", ""
 }
 /*
 func (t *CtxObject) addressVerify(addr string) {
@@ -147,8 +141,10 @@ func (t *CtxObject) genintegratedaddress() {
 	}
 }
 
+*/
+
 // generate and update all integrated addresses
-func (t *CtxObject) reloadhistory(available, in, out bool, max_limit int64) {
+func (t *CtxObject) reloadhistory(available, in, out bool, max_limit int64) ([]string, []string, []string) {
 
 	var listheight []string
 	var listtopoheight []string
@@ -162,21 +158,6 @@ func (t *CtxObject) reloadhistory(available, in, out bool, max_limit int64) {
 
 	var listdetails []string
 
-	defer func() {
-		global_object.SetHistoryListHeight(listheight)
-		global_object.SetHistoryListTopoHeight(listtopoheight)
-
-		global_object.SetHistoryListTXID(listtxid)
-		global_object.SetHistoryListAmount(listamount)
-		global_object.SetHistoryListPaymentID(listpaymentid)
-
-		global_object.SetHistoryListStatus(liststatus)
-		global_object.SetHistoryListUnlockTime(listunlocktime)
-
-		global_object.SetHistoryListOutDetails(listdetails)
-
-	}()
-
 	if global_object != nil && global_object.walletptr != nil {
 
 		min_height := uint64(0)
@@ -185,7 +166,7 @@ func (t *CtxObject) reloadhistory(available, in, out bool, max_limit int64) {
 		transfers := global_object.walletptr.Show_Transfers(available, in, out, pool, false, false, min_height, max_height) // receives sorted
 
 		if len(transfers) == 0 {
-			return
+			return listtxid, listamount, listdetails
 		}
 
 		for i := range transfers {
@@ -223,8 +204,9 @@ func (t *CtxObject) reloadhistory(available, in, out bool, max_limit int64) {
 			}
 		}
 	}
+	return listtxid, listamount, liststatus
 }
-
+/*
 //  create wallet using recovery key
 func (t *CtxObject) recoverusingkey(filename, password, seed_key_string string) {
 
@@ -499,19 +481,19 @@ func (t *CtxObject) relay_tx(tx_hex string) {
 
 	// global_object.SetIniterr("TODO TX relaying not supported")
 }
+*/
 
 //  set wallet online
 func (t *CtxObject) setwalletonline(wallet_server_address string) {
 	t.Lock()
 	defer t.Unlock()
-
 	if global_object != nil && global_object.walletptr != nil {
 		global_object.walletptr.SetDaemonAddress(wallet_server_address) // set remote mode
 		global_object.walletptr.SetOnlineMode()
-
+		fmt.Println("Asadasdasd")
 	}
 }
-
+/*
 //  set wallet online
 func (t *CtxObject) setwalletoffline() {
 	t.Lock()

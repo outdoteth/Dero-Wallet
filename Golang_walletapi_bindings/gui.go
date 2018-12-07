@@ -8,6 +8,8 @@ import (
 import "github.com/deroproject/derosuite/walletapi"
 import "net/http"
 import "io/ioutil"
+import "github.com/deroproject/derosuite/globals"
+import "github.com/docopt/docopt-go"
 
 var command_line string = `dero-wallet-gui
 DERO Wallet gui: A secure, private blockchain with smart-contracts
@@ -160,8 +162,82 @@ func open_wallet(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(addr))
 }
 
+type AccountInfo struct {
+	Height int64		`json:"height"`
+	TopoHeight int64	`json:"topoHeight"`
+	Nweight int64		`json:"Nweight"`
+	TotalBalance string `json:"totalBalance"`
+	UnlockedBalance string `json:"unlockedBalance"`
+	LockedBalance string `json:"lockedBalance"`
+}
+
+func get_balance(w http.ResponseWriter, r *http.Request) {
+	height, topoHeight, Nweight, totalBalance, unlockedBalance, lockedBalance := update_heights_balances()
+	info := AccountInfo {
+		Height: height,
+		TopoHeight: topoHeight,
+		Nweight: Nweight,
+		TotalBalance: totalBalance,
+		UnlockedBalance: unlockedBalance,
+		LockedBalance: lockedBalance };
+
+	x,_ := json.Marshal(info)
+	w.Write([]byte(x))
+}
+
+type URL struct {
+	Url string `json:"url"`
+}
+
+func set_wallet_online(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+	defer r.Body.Close()
+	var data URL
+	json.Unmarshal(body, &data)
+	global_object.setwalletonline(data.Url)
+	w.Write([]byte(data.Url))
+}
+
+type HistoryCount struct {
+	Range int64 `json:"range"`
+}
+
+type ReturnHistory struct {
+	TxIds []string 	`json:"txIds"`
+	AmountList []string `json:"amountList"`
+	ListDetails []string `json:"listDetails"`
+}
+
+func get_history(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+	defer r.Body.Close()
+	var data HistoryCount
+	json.Unmarshal(body, &data)
+	a, b, c := global_object.reloadhistory(false, true, true, data.Range);
+	n := ReturnHistory {
+		a, b, c};
+	fmt.Printf("%+v\n", n)
+	s,_ := json.Marshal(n)
+	fmt.Println(s);
+	w.Write([]byte(s))
+}
+
 func main() {
+	var err error
+	globals.Arguments, err = docopt.Parse(command_line, nil, true, "DERO atlantis wallet : work in progress", false)
+	if err != nil {
+
+	}
 	http.HandleFunc("/open_wallet", open_wallet)
+	http.HandleFunc("/get_balance", get_balance)
+	http.HandleFunc("/set_wallet_online", set_wallet_online)
+	http.HandleFunc("/get_history", get_history)
 	if err := http.ListenAndServe(":8000", nil); err != nil {
 		panic(err)
 	}
