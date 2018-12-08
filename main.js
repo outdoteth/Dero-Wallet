@@ -2,7 +2,8 @@
 
 require("electron-reload")(__dirname);
 var child = require('child_process').execFile;
-
+var {Menu} = require("electron");
+var path = require("path");
 
 const { app, BrowserWindow } = require('electron')
 
@@ -13,14 +14,14 @@ let win
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({ width: 1200, height: 700 })
-  var executablePath = "./Golang_walletapi_bindings/Golang_walletapi_bindings";
+  var executablePath = path.join(__dirname, "Golang_walletapi_bindings/Golang_walletapi_bindings");
 
   child(executablePath, function(err, data) {
       if(err){
          console.error(err);
          return;
       }
-   
+      console.log("sucess");
       console.log(data.toString());
   });
 
@@ -28,7 +29,7 @@ function createWindow () {
   win.loadFile('index.html')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -37,6 +38,26 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+
+      var template = [{
+        label: "Application",
+        submenu: [
+            { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+            { type: "separator" },
+            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]}, {
+        label: "Edit",
+        submenu: [
+            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+            { type: "separator" },
+            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]}
+    ];
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished

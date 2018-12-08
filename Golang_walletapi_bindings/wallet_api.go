@@ -21,13 +21,13 @@ import "fmt"
 import "runtime"
 import "strings"
 //import "path/filepath"
-//import "encoding/hex"
+import "encoding/hex"
 import "encoding/json"
 import "github.com/deroproject/derosuite/walletapi"
 import "github.com/deroproject/derosuite/globals"
 //import "github.com/deroproject/derosuite/crypto"
-//import "github.com/deroproject/derosuite/address"
-//import "github.com/deroproject/derosuite/transaction"
+import "github.com/deroproject/derosuite/address"
+import "github.com/deroproject/derosuite/transaction"
 
 // this goroutine continuously updates  height/balances if a wallet is open
 func update_heights_balances()(int64, int64, int64, string, string, string) {
@@ -204,7 +204,7 @@ func (t *CtxObject) reloadhistory(available, in, out bool, max_limit int64) ([]s
 			}
 		}
 	}
-	return listtxid, listamount, liststatus
+	return listtxid, listamount, listdetails
 }
 /*
 //  create wallet using recovery key
@@ -377,26 +377,24 @@ func (t *CtxObject) setpassword(oldpassword, password string) {
 	}
 }
 
-func (t *CtxObject) build_tx(destination, amount_str, paymentid string) {
+*/
+func (t *CtxObject) build_tx(destination, amount_str, paymentid string)(string) {
 	t.Lock()
 	defer t.Unlock()
 
 	if global_object == nil || global_object.walletptr == nil {
-		global_object.SetIniterr(fmt.Sprintf("Wallet not yet opened"))
-		return
+		return ""
 	}
 
 	addr, err := globals.ParseValidateAddress(destination)
 	if err != nil {
-		global_object.SetIniterr(err.Error())
-		return
+		fmt.Println(err)
+		return destination
 	}
 
 	amount_to_transfer, err := globals.ParseAmount(amount_str)
 	if err != nil {
-		global_object.SetIniterr(err.Error())
-		return
-
+		return "parse amount"
 	}
 
 	lpayid := strings.TrimSpace(paymentid)
@@ -409,38 +407,34 @@ func (t *CtxObject) build_tx(destination, amount_str, paymentid string) {
 	lpayid_raw, err := hex.DecodeString(lpayid)
 
 	if err != nil {
-		global_object.SetIniterr(err.Error())
-		return
+		return "decode payid"
 	}
 
 	switch len(lpayid_raw) {
 	case 0, 8, 32:
 	default:
-		global_object.SetIniterr(fmt.Sprintf("Invalid payment ID"))
-		return
+		return "lpayidraw"
 	}
 
 	addr_list := []address.Address{*addr}
 	amount_list := []uint64{amount_to_transfer} // transfer 50 dero, 2 dero
 	fees_per_kb := uint64(0)                    // fees  must be calculated by walletapi
 
-	tx, inputs, input_sum, change, err := global_object.walletptr.Transfer(addr_list, amount_list, 0, lpayid, fees_per_kb, 0)
+	tx, inputs, _, _, err := global_object.walletptr.Transfer(addr_list, amount_list, 0, lpayid, fees_per_kb, 0)
 	_ = inputs
 	if err != nil {
-		global_object.SetIniterr(fmt.Sprintf("Error while building Transaction err %s", err))
-		return
+		return "transfer"
 
 	}
 
 	// now setup properties for qt to display some info and confirm
-	global_object.SetTx_hex(hex.EncodeToString(tx.Serialize()))
-	global_object.SetTxid_hex(tx.GetHash().String())
+	tx_hex := hex.EncodeToString(tx.Serialize())
+	/*global_object.SetTxid_hex(tx.GetHash().String())
 	global_object.SetTx_total(globals.FormatMoney12(input_sum))
 	global_object.SetTx_transfer_amount(globals.FormatMoney12(amount_to_transfer))
 	global_object.SetTx_change(globals.FormatMoney12(change))
-	global_object.SetTx_fees(globals.FormatMoney12(tx.RctSignature.Get_TX_Fee()))
-
-	global_object.SetIniterr("") // mark as no error occurred
+	global_object.SetTx_fees(globals.FormatMoney12(tx.RctSignature.Get_TX_Fee()))*/
+	return tx_hex
 }
 
 //  create new wallet
@@ -449,16 +443,14 @@ func (t *CtxObject) relay_tx(tx_hex string) {
 	defer t.Unlock()
 
 	if global_object == nil || global_object.walletptr == nil {
-		global_object.SetIniterr(fmt.Sprintf("Wallet not yet opened"))
 		return
 	}
 
-	global_object.SetIniterr("") // this does NOT work, we must clean up the property from QML side, everywhere
+	 // this does NOT work, we must clean up the property from QML side, everywhere
 
 	tx_raw, err := hex.DecodeString(tx_hex)
 
 	if err != nil {
-		global_object.SetIniterr(err.Error())
 		return
 	}
 
@@ -468,20 +460,18 @@ func (t *CtxObject) relay_tx(tx_hex string) {
 	err = tx.DeserializeHeader(tx_raw)
 
 	if err != nil {
-		global_object.SetIniterr(fmt.Sprintf("Error relaying TX, err %s", err))
 		return
 	}
 
 	err = global_object.walletptr.SendTransaction(&tx)
 
 	if err != nil {
-		global_object.SetIniterr(fmt.Sprintf("Error relaying TX, err %s", err))
 		return
 	}
 
 	// global_object.SetIniterr("TODO TX relaying not supported")
 }
-*/
+
 
 //  set wallet online
 func (t *CtxObject) setwalletonline(wallet_server_address string) {

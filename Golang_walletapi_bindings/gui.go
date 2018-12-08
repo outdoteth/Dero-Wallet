@@ -228,6 +228,41 @@ func get_history(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(s))
 }
 
+type TxParams struct {
+	Destination string `json:"destination"`
+	Amount string      `json:"amount"`
+}
+
+type TxHex struct {
+	Tx_serialized string `json:"tx_hex"`
+}
+
+func send_tx(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+	defer r.Body.Close()
+	var data TxParams
+	json.Unmarshal(body, &data)
+	hex := global_object.build_tx(data.Destination, data.Amount, "");
+	n_hex := TxHex {hex};
+	s,_ := json.Marshal(n_hex)
+	w.Write([]byte(s))
+}
+
+func relay(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+	defer r.Body.Close()
+	var data TxHex
+	json.Unmarshal(body, &data)
+	global_object.relay_tx(data.Tx_serialized);
+	w.Write([]byte("s"))
+}
+
 func main() {
 	var err error
 	globals.Arguments, err = docopt.Parse(command_line, nil, true, "DERO atlantis wallet : work in progress", false)
@@ -238,6 +273,8 @@ func main() {
 	http.HandleFunc("/get_balance", get_balance)
 	http.HandleFunc("/set_wallet_online", set_wallet_online)
 	http.HandleFunc("/get_history", get_history)
+	http.HandleFunc("/send_tx", send_tx)
+	http.HandleFunc("/relay_tx", relay)
 	if err := http.ListenAndServe(":8000", nil); err != nil {
 		panic(err)
 	}
