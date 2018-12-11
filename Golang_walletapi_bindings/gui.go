@@ -263,6 +263,23 @@ func relay(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("s"))
 }
 
+type Password struct {
+	Pass string `json:"password"`
+	Path string `json:"path"`
+}
+
+func create_new(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return
+	}
+	defer r.Body.Close()
+	var data Password
+	json.Unmarshal(body, &data)
+	global_object.createnewwallet(data.Path, data.Pass);
+	w.Write([]byte("s"))
+}
+
 func main() {
 	var err error
 	globals.Arguments, err = docopt.Parse(command_line, nil, true, "DERO atlantis wallet : work in progress", false)
@@ -275,6 +292,8 @@ func main() {
 	http.HandleFunc("/get_history", get_history)
 	http.HandleFunc("/send_tx", send_tx)
 	http.HandleFunc("/relay_tx", relay)
+	http.HandleFunc("/create_new_wallet", create_new)
+
 	if err := http.ListenAndServe(":8000", nil); err != nil {
 		panic(err)
 	}

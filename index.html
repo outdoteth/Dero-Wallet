@@ -1,56 +1,5 @@
 <!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-<html>
-  <body>
-
-    <div id="container">
-      <div class="main-container">
-        <div class="logged-in-main">
-
-          <div class="main-main-box">
-            <div class="send-recieve">
-              <div class="send-recieve-send"><p>Send Funds</p></div>
-              <div class="send-recieve-recieve"><p>Receive Funds</p></div>
-            </div>
-
-
-
-
-
-          </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="main-top-banner">
-        <div>
-          <h1 class="main-top-banner-amount-num">787987987987</h1>
-          <p class="main-top-banner-amount-text">Account Balance</p>
-        </div>
-      </div>
-
-            <div class="main-side-banner">
-        <div><p>Wallet</p></div>
-        <div><p>Send Funds</p></div>
-        <div><p>Receive Funds</p></div>
-        <div><p>Settings</p></div>
-      </div>
-        </div>
-
-      </div>
-    </div>
-  </body>
-  <script type="text/javascript" src="./src/bundle.js"></script>
-</html>
-
 <style>
   .receive-box {
     margin: auto;
@@ -570,4 +519,63 @@ button:focus:after {
     font-size: 15px;
   }
 
+  .enter-password > h3 {
+    margin: auto;
+    margin-top: 21%;
+    text-align: center;
+  }
+
+  .enter-password > input {
+        display: block;
+        margin-top: 30px;
+        width: 30%;
+        height: 30px;
+        border: none;
+        padding-left: 10px;
+        font-weight: bold;
+        border-radius: 7px;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
+  .enter-password > button {
+            display: block;
+              margin-left: auto;
+  margin-right: auto;
+        margin-top: 20px;
+        width: 30.8%;
+    border: none;
+    border-radius: 7px;
+    height: 40px;
+    padding: none;
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #2356E7;
+    color: white;
+    border: 1px solid white;
+  }
+
+  @keyframes password-login-options-hover {
+    from {background-color: #2356E7; color: white; border: 1px solid white;}
+    to {background-color: white; color: black; border: 1px solid white;}
+  }
+
+  .enter-password > button:hover {
+    animation-name: password-login-options-hover;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+    cursor: pointer;
+  }
+
 </style>
+<html>
+  <body>
+
+    <div id="container">
+      <div class="main-container">
+
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="./src/bundle.js"></script>
+</html>

@@ -92,18 +92,21 @@ class MainBox extends React.Component {
 	}
 
 	update_history() {
-		axios.post("http://127.0.0.1:8000/get_history", {range: history.length + 25}).then(res => {
+		axios.post("http://127.0.0.1:8000/get_history", {range: this.state.history.length + 25}).then(res => {
 			let history_tx = [];
-			for (let i = 0; i < res.data.amountList.length; i++) {
+			console.log(res.data);
+			if (res.data.amountList) {
+				for (let i = 0; i < res.data.amountList.length; i++) {
 				let tx = {
 					incoming: res.data.listDetails[i] == " ",
 					amount: res.data.amountList[i],
 					tx_id: res.data.txIds[i]
 				}
 				history_tx.push(tx);
+				}
+				console.log(history_tx);
+				this.setState({this.state.history: history_tx});
 			}
-			console.log(history_tx);
-			this.setState({history: history_tx});
 		});
 	}
 

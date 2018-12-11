@@ -20,7 +20,7 @@ import "fmt"
 //import "time"
 import "runtime"
 import "strings"
-//import "path/filepath"
+import "path/filepath"
 import "encoding/hex"
 import "encoding/json"
 import "github.com/deroproject/derosuite/walletapi"
@@ -296,7 +296,7 @@ func (t *CtxObject) openwallet(filename, password string)(string) {
 	addr := t.Common_Wallet_Setup(walletptr)
 	return addr
 }
-/*
+
 //  create new wallet
 func (t *CtxObject) createnewwallet(filename, password string) {
 	t.Lock()
@@ -312,17 +312,17 @@ func (t *CtxObject) createnewwallet(filename, password string) {
 	}
 
 	//fmt.Printf("createnewwallet file %s", filename)
-	walletptr, err := walletapi.Create_Encrypted_Wallet_Random(filepath.Join(filename, "wallet.db"), password)
+	_, err := walletapi.Create_Encrypted_Wallet_Random(filepath.Join(filename, "wallet.db"), password)
 	if err != nil {
 		//globals.Logger.Warnf("Error while recovering wallet using seed key err %s\n", err)
-		global_object.SetIniterr(fmt.Sprintf("Error occured while creating new wallet file %s. err %s", filename, err))
-		return
+		//global_object.SetIniterr(fmt.Sprintf("Error occured while creating new wallet file %s. err %s", filename, err))
+		return 
 	}
 
 	// we are here means wallet opened successfully
-	t.Common_Wallet_Setup(walletptr)
+	//t.Common_Wallet_Setup(walletptr)
 }
-*/
+
 func (t *CtxObject) Common_Wallet_Setup(walletptr *walletapi.Wallet) (string) {
 
 	global_object.walletptr = walletptr
